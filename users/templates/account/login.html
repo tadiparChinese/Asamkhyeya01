@@ -4,8 +4,9 @@
 {% load i18n %}
 {% load account socialaccount %}
 
-{% block head_title %}{% trans "Hyr ne platforme" %}{% endblock %}
-<h1 class="entry-title">{% block blockname %} Hyr ne Platform   {% endblock blockname %} </h1>
+{% block head_title %}{% trans "Log in to the Platform" %}{% endblock %}
+<h1 class="entry-title">{% block blockname %}
+  Log in to the Platform {% endblock blockname %} </h1>
 
 {% block content %}
 
@@ -18,43 +19,47 @@
     </div>
   </div>
 </div>
-<div class='col-lg-10 offset-md-1 mt-5 mb-4 p-4' >
+<div class='col-lg-10 offset-md-1 mt-5 mb-4 p-4'>
 
-    <h1>{% trans "Hyr ne Platforme" %}</h1>
+  <h1>{% trans "Log in to the Platform" %}</h1>
 
-    {% get_providers as socialaccount_providers %}
+  {% get_providers as socialaccount_providers %}
 
-    {% if socialaccount_providers %}
+  {% if socialaccount_providers %}
 
-    <p>{% blocktrans with site.name as site_name %}Ju lutem hyni me nje nga adresat e juaja ekzistuese Ose, <a href="{{ signup_url }}">regjistrohuni</a>
-    per nje adrese{{ site_name }} dhe pastaj hyni duke klikuar me poshte:{% endblocktrans %}</p>
+  <p>{% blocktrans with site.name as site_name %}
+    Please enter one of your existing addresses Or, <a href="{{ signup_url }}">
+      register </a>
+    for an address {{site_name}} and then login by clicking below: {% endblocktrans%} </p>
 
-    <div class="socialaccount_ballot">
+  <div class="socialaccount_ballot">
 
-        <ul class="socialaccount_providers">
-        {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-        </ul>
+    <ul class="socialaccount_providers">
+      {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+    </ul>
 
-        <div class="login-or">{% trans 'ose' %}</div>
+    <div class="login-or">{% trans 'or' %}</div>
 
-    </div>
+  </div>
 
-    {% include "socialaccount/snippets/login_extra.html" %}
+  {% include "socialaccount/snippets/login_extra.html" %}
 
-    {% else %}
-    <p>{% blocktrans %}Nese nuk keni krijuar nje adrese akoma, ju lutem
-    <a href="{{ signup_url }}">regjistrohuni</a> fillimisht.{% endblocktrans %}</p>
+  {% else %}
+  <p> {% blocktrans%} If you have not created an account yet, please
+    <a href="{{ signup_url }}"> sign up </a> first. {% endblocktrans%} </p>
+  {% endif %}
+
+  <form class="login" method="POST" action="{% url 'account_login' %}">
+    {% csrf_token %}
+    {{ form|crispy }}
+    {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
     {% endif %}
-
-    <form class="login" method="POST" action="{% url 'account_login' %}">
-        {% csrf_token %}
-        {{ form|crispy }}
-        {% if redirect_field_value %}
-        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-        {% endif %}
-        <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Keni harruar fjalkalimin?" %}</a>
-        <button class="primaryAction btn btn-primary" type="submit">{% trans "Hyr" %}</button>
-    </form>
+    <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot your password?" %}</a>
+    <!-- <a class="button secondaryAction btn btn-secondary"
+      href="{% url 'account_reset_password' %}">{% trans "Forgot your password?" %}</a> -->
+    <button class="primaryAction btn btn-primary" type="submit">{% trans "Sign up" %}</button>
+  </form>
 
 </div>
 <hr>

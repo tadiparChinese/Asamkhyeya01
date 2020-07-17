@@ -14,7 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
 
 # Quick-start development settings - unsuitable for production
@@ -64,7 +64,7 @@ ROOT_URLCONF = 'Coursera.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR,],
+        'DIRS': [TEMPLATE_DIR, ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -138,11 +138,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,'static')
-    ]
+    os.path.join(BASE_DIR, 'static')
+]
 
 
-#media
+# media
 MEDIA_URL = '/media/'
 
 
@@ -180,10 +180,12 @@ ACCOUNT_PASSWORD_MIN_LENGTH = 6
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 
 EMAIL_USE_TLS = True
-EMAIL_HOST='smtp.gmail.com'
-EMAIL_HOST_USER='redian1marku@gmail.com'
-EMAIL_HOST_PASSWORD='realitet'
-EMAIL_PORT = 587 
+EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER='redian1marku@gmail.com'
+# EMAIL_HOST_PASSWORD='realitet'
+EMAIL_HOST_USER = 'asamkhyeyatech@gmail.com'
+EMAIL_HOST_PASSWORD = 'asamkhyeya@123'
+EMAIL_PORT = 587
 
 
 if DEBUG:

@@ -12,7 +12,7 @@
     <div class="row">
       <div class="col-lg-9">
 
-        <a href="{% url 'blogs:create_post' %}" style="color: white;" class="site-btn">Krijo nje postim</a>
+        <a href="{% url 'blogs:create_post' %}" style="color: white;" class="site-btn">Create a post</a>
         {% if posts %}
         {% for post in posts %}
         <!-- blog post -->
@@ -36,33 +36,36 @@
 
 
         {% endif %}
-        
-  
+
+
       </div>
       <div class="col-lg-3 col-md-5 col-sm-9 sidebar">
         <div class="sb-widget-item">
           <form class="search-widget">
-            <input type="text" placeholder="Kerko">
+            <input type="text" placeholder="Search">
             <button><i class="fa fa-search"></i></button>
           </form>
         </div>
         <div class="sb-widget-item">
-          <h4 class="sb-w-title">Klasat</h4>
+          <h4 class="sb-w-title">
+            Classrooms</h4>
           <ul>
-            <li><a href="#">Programim</a></li>
-            <li><a href="#">Rrjete sociale</a></li>
-            <li><a href="#">Lajmet</a></li>
-            <li><a href="#">Eventet</a></li>
+            <li><a href="#">Programming</a></li>
+            <li><a href="#">
+                Social networks</a></li>
+            <li><a href="#">
+                News</a></li>
+            <li><a href="#">Events</a></li>
           </ul>
         </div>
         <div class="sb-widget-item">
-          <h4 class="sb-w-title">Arkiva</h4>
+          <h4 class="sb-w-title">Archive</h4>
           <ul>
-            <li><a href="#">February 2018</a></li>
-            <li><a href="#">March 2018</a></li>
-            <li><a href="#">April 2018</a></li>
-            <li><a href="#">May 2018</a></li>
-            <li><a href="#">June 2018</a></li>
+            <li><a href="#">February 2020</a></li>
+            <li><a href="#">March 2020</a></li>
+            <li><a href="#">April 2020</a></li>
+            <li><a href="#">May 2020</a></li>
+            <li><a href="#">June 2020</a></li>
           </ul>
         </div>
         <div class="sb-widget-item">

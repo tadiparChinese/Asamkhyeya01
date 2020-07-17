@@ -9,3 +9,6 @@ Online learning platform builded with Django
 
 ## Certificate
 This project is officially certificated by **Redian Marku** the creator of this project.
+
+## Addition and Modifiacation
+this website is further modified by **Pratik**  with due credit to its original creator **Redian Marku**.

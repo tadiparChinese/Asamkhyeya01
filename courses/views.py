@@ -1,14 +1,15 @@
 import secrets
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView,ListView,DetailView,View
-from courses.models import Lendet,Lesson,Klasa
+from django.views.generic import TemplateView, ListView, DetailView, View
+from courses.models import Lendet, Lesson, Klasa
 from memberships.models import UserMembership
 from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import KlasaForm, LendaForm, MesimiForm
 # Create your views here.
+
 
 class HomeView(TemplateView):
     template_name = 'index.html'
@@ -19,6 +20,7 @@ class HomeView(TemplateView):
         context['category'] = category
         return context
 
+
 class AboutView(TemplateView):
     template_name = 'about.html'
 
@@ -27,14 +29,12 @@ class ContactView(TemplateView):
     template_name = 'contact.html'
 
 
-
 def CourseListView(request, category):
-    courses = Lendet.objects.filter(klasa=category)
+    courses = Lendet.objects.filter(klasa=category)  # Lendet=subject
     context = {
-        'courses':courses
+        'courses': courses
     }
     return render(request, 'courses/course_list.html', context)
-
 
 
 class CourseDetailView(DetailView):
@@ -43,8 +43,7 @@ class CourseDetailView(DetailView):
     model = Lendet
 
 
- 
-class LessonDetailView(View,LoginRequiredMixin):
+class LessonDetailView(View, LoginRequiredMixin):
     def get(self, request, course_slug, lesson_slug, *args, **kwargs):
         course = get_object_or_404(Lendet, slug=course_slug)
         lesson = get_object_or_404(Lesson, slug=lesson_slug)
@@ -55,37 +54,39 @@ class LessonDetailView(View,LoginRequiredMixin):
 @login_required
 def SearchView(request):
     if request.method == 'POST':
-        kerko = request.POST.get('search')
+        kerko = request.POST.get('search')  # search
         results = Lesson.objects.filter(titulli__contains=kerko)
         context = {
-            'results':results
+            'results': results
         }
         return render(request, 'courses/search_result.html', context)
 
 
 @login_required
-def krijo_klase(request):
+def krijo_klase(request):  # create class
     if not request.user.profile.is_teacher == True:
-        messages.error(request, f'Llogaria juaj nuk ka akses ne kete url vetem llogarite e mesuesve!')
+        messages.error(
+            request, f'Your account does not have access to this page. This is only for teacher accounts!')
         return redirect('courses:home')
     if request.method == 'POST':
         form = KlasaForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, f'Klasa juaj u krijua.')
+            messages.success(request, f'Your class was created.')
             return redirect('courses:home')
     else:
         form = KlasaForm()
     context = {
-        'form':form
+        'form': form
     }
     return render(request, 'courses/krijo_klase.html', context)
 
 
 @login_required
-def krijo_lende(request):
+def krijo_lende(request):  # create_subject
     if not request.user.profile.is_teacher == True:
-        messages.error(request, f'Llogaria juaj nuk ka akses ne kete url vetem llogarite e mesuesve!')
+        messages.error(
+            request, f'Your account does not have access to this page. This is only for teacher accounts!')
         return redirect('courses:home')
     if request.method == 'POST':
         form = LendaForm(request.POST)
@@ -93,20 +94,22 @@ def krijo_lende(request):
             form.save()
             klasa = form.cleaned_data['klasa']
             slug = klasa.id
-            messages.success(request, f'Lenda juaj u krijua.')
+            messages.success(request, f'Your subject is created.')
             return redirect('/courses/' + str(slug))
     else:
-        form = LendaForm(initial={'krijues':request.user.id, 'slug':secrets.token_hex(nbytes=16)})
+        form = LendaForm(
+            initial={'krijues': request.user.id, 'slug': secrets.token_hex(nbytes=16)})
     context = {
-        'form':form
+        'form': form
     }
     return render(request, 'courses/krijo_lende.html', context)
 
 
 @login_required
-def krijo_mesim(request):
+def krijo_mesim(request):  # create_lesson
     if not request.user.profile.is_teacher == True:
-        messages.error(request, f'Llogaria juaj nuk ka akses ne kete url vetem llogarite e mesuesve!')
+        messages.error(
+            request, f'Your account does not have access to this page. This is only for teacher accounts!')
         return redirect('courses:home')
     if request.method == 'POST':
         form = MesimiForm(request.POST)
@@ -114,12 +117,12 @@ def krijo_mesim(request):
             form.save()
             lenda = form.cleaned_data['lenda']
             slug = lenda.slug
-            messages.success(request, f'Mesimi juaj u krijua.')
-            return redirect('/courses/' + str(slug) )
+            messages.success(request, f'Your lesson was created.')
+            return redirect('/courses/' + str(slug))
     else:
-        form = MesimiForm(initial={'slug':secrets.token_hex(nbytes=16)})
+        form = MesimiForm(initial={'slug': secrets.token_hex(nbytes=16)})
     context = {
-        'form':form
+        'form': form
     }
     return render(request, 'courses/krijo_mesim.html', context)
 
@@ -127,8 +130,10 @@ def krijo_mesim(request):
 def view_404(request, exception):
     return render(request, '404.html')
 
+
 def view_403(request, exception):
     return render(request, '403.html')
+
 
 def view_500(request):
     return render(request, '500.html')
