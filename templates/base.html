@@ -55,23 +55,23 @@
 					</li>
 					<li class="nav-item mx-0 mx-lg-1">
 					<li class="nav-item mx-0 mx-lg-1">
-						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/#kurset">Courses</a>
+						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/#courses">Courses</a>
 					</li>
 					</li>
 					{% if request.user.profile.is_teacher == True %}
 					<li class="nav-item mx-0 mx-lg-1">
 						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-							href="{% url 'courses:krijo_klase' %}">Create Classes</a>
+							href="{% url 'courses:create_class' %}">Create Classes</a>
 					</li>
 					<li class="nav-item mx-0 mx-lg-1">
 						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-							href="{% url 'courses:krijo_lende' %}">
+							href="{% url 'courses:create_subject' %}">
 							Create Subjects</a>
 					</li>
 					<li class="nav-item mx-0 mx-lg-1">
 						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-							href="{% url 'courses:krijo_mesim' %}">
-							Create Learning</a>
+							href="{% url 'courses:create_lesson' %}">
+							Create Lesson</a>
 					</li>
 					{% else %}
 					<li class="nav-item mx-0 mx-lg-1">

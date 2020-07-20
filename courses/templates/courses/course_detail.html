@@ -28,7 +28,8 @@
       <div class="row">
         <div class="col-lg-10 offset-lg-1">
           <!-- search form -->
-          <form method="post" action="{% url 'courses:kerko_kurs' %}" class="intro-newslatter"> {% csrf_token %}
+          <!-- <form method="post" action="{% url 'courses:kerko_kurs' %}" class="intro-newslatter"> {% csrf_token %} -->
+            <form method="post" action="{% url 'courses:search_course' %}" class="intro-newslatter"> {% csrf_token %}
             <input name="search" type="text" placeholder="Search for courses">
             <button type="submit" class="site-btn btn-dark">Search for courses</button>
           </form>
@@ -47,12 +48,12 @@
       <div class="row">
         <div class="col-lg-10 offset-lg-1">
 
-          <h3>{{course.titulli|capfirst}}</h3>
+          <h3>{{course.title|capfirst}}</h3>
           <div class="course-metas">
             <div class="course-meta">
               <div class="course-author">
                 <h6>Teacher</h6>
-                <p>{{course.krijues|capfirst}}, <span>Teacher</span></p>
+                <p>{{course.creator|capfirst}}, <span>Teacher</span></p>
               </div>
             </div>
             <div class="course-meta">
@@ -63,8 +64,9 @@
             </div>
             <div class="course-meta">
               <div class="cm-info">
-                <h6>Pershkrimi i klases</h6>
-                <p>{{course.pershkrimi}}</p>
+                <h6>
+                  Class description</h6>
+                <p>{{course.description}}</p>
               </div>
             </div>
             <div class="course-meta">
@@ -89,8 +91,8 @@
           {% if course.lessons != None  %}
           {% for lesson in course.lessons %}
           <div data-aos="fade-right">
-            <h5 class="pb-3">teaching {{lesson.pozicioni}} <a id="vazhdo"
-                href="{{ lesson.get_absolute_url }}#video"><span class="pl-4">{{lesson.titulli}}</span></a></h5>
+            <h5 class="pb-3">teaching {{lesson.position}} <a id="vazhdo"
+                href="{{ lesson.get_absolute_url }}#video"><span class="pl-4">{{lesson.title}}</span></a></h5>
           </div>
           {% endfor %}
           {% endif %}

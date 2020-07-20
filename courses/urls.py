@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth.decorators import login_required
 
-from courses.views import HomeView, AboutView, ContactView, CourseListView, CourseDetailView, LessonDetailView, SearchView, krijo_klase, krijo_lende, krijo_mesim
+from courses.views import HomeView, AboutView, ContactView, CourseListView, CourseDetailView, LessonDetailView, SearchView, create_class, create_subject, create_lesson
 
 app_name = 'courses'
 
@@ -14,8 +14,8 @@ urlpatterns = [
          name='course_detail'),
     path('courses/<course_slug>/<lesson_slug>/',
          login_required(LessonDetailView.as_view()), name='lesson_detail'),
-    path('search/', SearchView, name='kerko_kurs'),
-    path('krijo/klase', krijo_klase, name='krijo_klase'),  # Create / class
-    path('krijo/lende', krijo_lende, name='krijo_lende'),  # Create / subject
-    path('krijo/mesim', krijo_mesim, name='krijo_mesim')  # Create / lesson
+    path('search/', SearchView, name='search_course'), #kerko_kurs=search_course
+    path('create/klasa', create_class, name='create_class'),  # Create / class
+    path('create/subject', create_subject, name='create_subject'),  # Create / subject
+    path('create/lesson', create_lesson, name='create_lesson')  # Create / lesson
 ]

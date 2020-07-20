@@ -23,7 +23,7 @@
     </div>
     <div class="row">
       <div class="col-lg-10 offset-lg-1">
-        <form method="post" action="{% url 'courses:kerko_kurs' %}" class="intro-newslatter"> {% csrf_token %}
+        <form method="post" action="{% url 'courses:search_course' %}" class="intro-newslatter"> {% csrf_token %}
           <input name="search" type="text" placeholder="Search the course">
           <button type="submit" class="site-btn">Search the course</button>
         </form>
@@ -46,12 +46,12 @@
       <!-- categorie -->
       <div data-aos="zoom-in" class="col-lg-4 col-md-6">
         <div class="categorie-item">
-          <div class="ci-thumb set-bg" data-setbg="{{ cat.imazhi.url }}"></div>
+          <div class="ci-thumb set-bg" data-setbg="{{ cat.image.url }}"></div>
           <div class="ci-text">
 
-            <h5>{{cat.titulli|capfirst}}</h5>
+            <h5>{{cat.title|capfirst}}</h5>
 
-            <p>{{ cat.pershkrimi|capfirst }}</p>
+            <p>{{ cat.description|capfirst }}</p>
             <span><a class="btn btn-success" href="/courses/{{ cat.id }}">Look at the content</a></span>
           </div>
         </div>
@@ -183,7 +183,7 @@
   <div data-aos="fade-right" class="row mt-4 mb-4 bg-light">
     <div class="col-md-4 text-center">
       <h3 class="p-4">You can create your own class</h3>
-      <a href="{% url 'courses:krijo_klase' %}" class="btn btn-outline-primary m-4">
+      <a href="{% url 'courses:create_class' %}" class="btn btn-outline-primary m-4">
         Create class</a>
     </div>
     <div class="col-md-8">
@@ -198,7 +198,7 @@
 
     <div class="col-md-4 text-center">
       <h3 class="p-4">You can create your own subjects</h3>
-      <a href="{% url 'courses:krijo_lende' %}" class="btn btn-outline-primary m-4">Create the subject</a>
+      <a href="{% url 'courses:create_subject' %}" class="btn btn-outline-primary m-4">Create the subject</a>
     </div>
   </div>
 
@@ -206,7 +206,7 @@
     <div class="col-md-4 text-center">
       <h3 class="p-4">
         You can upload your own lessons and videos.</h3>
-      <a href="{% url 'courses:krijo_mesim' %}" class="btn btn-outline-primary m-4">Create learning</a>
+      <a href="{% url 'courses:create_lesson' %}" class="btn btn-outline-primary m-4">Create Lessons</a>
     </div>
     <div class="col-md-8">
       <img class="img-fluid w-100" src="{% static 'webuni/img/categories/1.jpg' %}" alt="">

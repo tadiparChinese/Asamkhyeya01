@@ -1,13 +1,13 @@
 import secrets
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, DetailView, View
-from courses.models import Lendet, Lesson, Klasa
+from courses.models import Subject, Lesson, Klasa
 from memberships.models import UserMembership
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import KlasaForm, LendaForm, MesimiForm
+from .forms import KlasaForm, SubjectForm, TeacherForm
 # Create your views here.
 
 
@@ -30,7 +30,7 @@ class ContactView(TemplateView):
 
 
 def CourseListView(request, category):
-    courses = Lendet.objects.filter(klasa=category)  # Lendet=subject
+    courses = Subject.objects.filter(klasa=category)  # Lendet=subject
     context = {
         'courses': courses
     }
@@ -40,12 +40,12 @@ def CourseListView(request, category):
 class CourseDetailView(DetailView):
     context_object_name = 'course'
     template_name = 'courses/course_detail.html'
-    model = Lendet
+    model = Subject
 
 
 class LessonDetailView(View, LoginRequiredMixin):
     def get(self, request, course_slug, lesson_slug, *args, **kwargs):
-        course = get_object_or_404(Lendet, slug=course_slug)
+        course = get_object_or_404(Subject, slug=course_slug)
         lesson = get_object_or_404(Lesson, slug=lesson_slug)
         context = {'lesson': lesson}
         return render(request, "courses/lesson_detail.html", context)
@@ -54,8 +54,9 @@ class LessonDetailView(View, LoginRequiredMixin):
 @login_required
 def SearchView(request):
     if request.method == 'POST':
-        kerko = request.POST.get('search')  # search
-        results = Lesson.objects.filter(titulli__contains=kerko)
+        search = request.POST.get('search')  # search
+        #results = Lesson.objects.filter(titulli__contains=kerko)
+        results = Lesson.objects.filter(title__contains=search)
         context = {
             'results': results
         }
@@ -63,7 +64,8 @@ def SearchView(request):
 
 
 @login_required
-def krijo_klase(request):  # create class
+#def krijo_klase(request):  # create_class
+def create_class(request):
     if not request.user.profile.is_teacher == True:
         messages.error(
             request, f'Your account does not have access to this page. This is only for teacher accounts!')
@@ -79,17 +81,18 @@ def krijo_klase(request):  # create class
     context = {
         'form': form
     }
-    return render(request, 'courses/krijo_klase.html', context)
+    return render(request, 'courses/create_class.html', context)
 
 
 @login_required
-def krijo_lende(request):  # create_subject
+#def krijo_lende(request):  # create_subject
+def create_subject(request):
     if not request.user.profile.is_teacher == True:
         messages.error(
             request, f'Your account does not have access to this page. This is only for teacher accounts!')
         return redirect('courses:home')
     if request.method == 'POST':
-        form = LendaForm(request.POST)
+        form = SubjectForm(request.POST)
         if form.is_valid():
             form.save()
             klasa = form.cleaned_data['klasa']
@@ -97,34 +100,34 @@ def krijo_lende(request):  # create_subject
             messages.success(request, f'Your subject is created.')
             return redirect('/courses/' + str(slug))
     else:
-        form = LendaForm(
-            initial={'krijues': request.user.id, 'slug': secrets.token_hex(nbytes=16)})
+        form = SubjectForm(
+            initial={'creator': request.user.id, 'slug': secrets.token_hex(nbytes=16)})
     context = {
         'form': form
     }
-    return render(request, 'courses/krijo_lende.html', context)
+    return render(request, 'courses/create_subject.html', context)
 
 
 @login_required
-def krijo_mesim(request):  # create_lesson
+def create_lesson(request):  # create_lesson
     if not request.user.profile.is_teacher == True:
         messages.error(
             request, f'Your account does not have access to this page. This is only for teacher accounts!')
         return redirect('courses:home')
     if request.method == 'POST':
-        form = MesimiForm(request.POST)
+        form = TeacherForm(request.POST)
         if form.is_valid():
             form.save()
-            lenda = form.cleaned_data['lenda']
-            slug = lenda.slug
+            subject = form.cleaned_data['subject']
+            slug = subject.slug
             messages.success(request, f'Your lesson was created.')
             return redirect('/courses/' + str(slug))
     else:
-        form = MesimiForm(initial={'slug': secrets.token_hex(nbytes=16)})
+        form = TeacherForm(initial={'slug': secrets.token_hex(nbytes=16)})
     context = {
         'form': form
     }
-    return render(request, 'courses/krijo_mesim.html', context)
+    return render(request, 'courses/create_lesson.html', context)
 
 
 def view_404(request, exception):

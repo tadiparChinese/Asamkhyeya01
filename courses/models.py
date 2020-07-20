@@ -5,29 +5,29 @@ from django.urls import reverse
 
 
 class Klasa(models.Model):  # Klasa=Class
-    titulli = models.CharField(max_length=150)  # titulli = title
-    pershkrimi = models.TextField(
-        max_length=200, null=True)  # pershkrimi=description
-    imazhi = models.ImageField(
+    title = models.CharField(max_length=150)  # title = title
+    description = models.TextField(
+        max_length=200, null=True)  # description=description
+    image = models.ImageField(
         upload_to='cat_images', default='cat_images/default.jpg')  # imazhi=image
 
     def __str__(self):
-        return '{}'.format(self.titulli)
+        return '{}'.format(self.title)
 
 
-class Lendet(models.Model):  # Lendet=subject
-    krijues = models.ForeignKey(
+class Subject(models.Model):  # Lendet=subject
+    creator = models.ForeignKey(
         User, on_delete=models.CASCADE)  # krijues = creator
     slug = models.SlugField()
-    titulli = models.CharField(max_length=30)
+    title = models.CharField(max_length=30)
     klasa = models.ForeignKey(Klasa, on_delete=models.CASCADE)
-    pershkrimi = models.TextField(max_length=400)  # description
-    krijuar_me = models.DateTimeField(auto_now=True)  # created_at
-    imazhi_lendes = models.ImageField(
-        upload_to='kurs_images', default='default.jpg')  # thumbnail
+    description = models.TextField(max_length=400)  # description
+    created_at = models.DateTimeField(auto_now=True)  # created_at
+    thumbnail = models.ImageField(
+        upload_to='course_images', default='default.jpg')  # imazhi_lendes=thumbnail
 
     def __str__(self):
-        return self.titulli
+        return self.title
 
     def get_absolute_url(self):
         return reverse("courses:course_detail", kwargs={"slug": self.slug})
@@ -37,18 +37,18 @@ class Lendet(models.Model):  # Lendet=subject
 
     @property
     def lessons(self):
-        return self.lesson_set.all().order_by('pozicioni')  # order_by(position)
+        return self.lesson_set.all().order_by('position')  # order_by(pozicioni=position)
 
 
 class Lesson(models.Model):
     slug = models.SlugField()
-    titulli = models.CharField(max_length=30)  # title
-    lenda = models.ForeignKey(Lendet, on_delete=models.CASCADE)  # subject
+    title = models.CharField(max_length=30)  # title
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)  # lenda = subject
     video_id = models.CharField(max_length=11)
-    pozicioni = models.IntegerField()  # position
+    position = models.IntegerField()  # pozicioni=position
 
     def __str__(self):
-        return self.titulli
+        return self.title
 
     def get_absolute_url(self):
-        return reverse("courses:lesson_detail", kwargs={"course_slug": self.lenda.slug, 'lesson_slug': self.slug})
+        return reverse("courses:lesson_detail", kwargs={"course_slug": self.subject.slug, 'lesson_slug': self.slug})
