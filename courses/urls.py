@@ -14,7 +14,8 @@ urlpatterns = [
          name='course_detail'),
     path('courses/<course_slug>/<lesson_slug>/',
          login_required(LessonDetailView.as_view()), name='lesson_detail'),
-    path('search/', SearchView, name='search_course'), #kerko_kurs=search_course
+    #path('search/', SearchView, name='search_course'),
+    path('search/', SearchView, name='search_course'),
     path('create/klasa', create_class, name='create_class'),  # Create / class
     path('create/subject', create_subject, name='create_subject'),  # Create / subject
     path('create/lesson', create_lesson, name='create_lesson')  # Create / lesson

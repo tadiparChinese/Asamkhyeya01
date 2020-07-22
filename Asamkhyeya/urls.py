@@ -31,7 +31,7 @@ urlpatterns = [
     path('', include('users.urls',namespace='users')),
     path('accounts/', include('allauth.urls')),
     # path('__debug__/', include('debug_toolbar.urls')),
-    path('', include('quiz.urls'))
+    path('', include('quiz.urls')), 
 ]
 
 

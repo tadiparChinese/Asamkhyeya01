@@ -28,7 +28,6 @@
       <div class="row">
         <div class="col-lg-10 offset-lg-1">
           <!-- search form -->
-          <!-- <form method="post" action="{% url 'courses:kerko_kurs' %}" class="intro-newslatter"> {% csrf_token %} -->
             <form method="post" action="{% url 'courses:search_course' %}" class="intro-newslatter"> {% csrf_token %}
             <input name="search" type="text" placeholder="Search for courses">
             <button type="submit" class="site-btn btn-dark">Search for courses</button>
@@ -78,7 +77,7 @@
           </div>
           <a href="/courses/{{ course.id }}" class="site-btn price-btn">
             Back</a>
-          <a href="#vazhdo" class="site-btn buy-btn">Continue Learning</a>
+          <a href="#go" class="site-btn buy-btn">Continue Learning</a>
         </div>
       </div>
     </div>
@@ -91,7 +90,7 @@
           {% if course.lessons != None  %}
           {% for lesson in course.lessons %}
           <div data-aos="fade-right">
-            <h5 class="pb-3">teaching {{lesson.position}} <a id="vazhdo"
+            <h5 class="pb-3">teaching {{lesson.position}} <a id="go"
                 href="{{ lesson.get_absolute_url }}#video"><span class="pl-4">{{lesson.title}}</span></a></h5>
           </div>
           {% endfor %}
