@@ -190,7 +190,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_HOST_USER='redian1marku@gmail.com'
 # EMAIL_HOST_PASSWORD='realitet'
 EMAIL_HOST_USER = 'asamkhyeyatech@gmail.com'
-EMAIL_HOST_PASSWORD = 'asamkhyeya@123'
+EMAIL_HOST_PASSWORD = 'asamk*************3'
 EMAIL_PORT = 587
 
 
